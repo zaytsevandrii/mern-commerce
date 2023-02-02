@@ -1,12 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import Footer from "./components/Footer"
+import Header from "./components/Header"
+import { Container, Row, Col } from "react-bootstrap"
 
 function App() {
-  return (
-    <div className="App">
-   
-    </div>
-  );
+    return (
+        <>
+            <Header />
+            <main>
+                <Container>
+                    <h1>This is main page</h1>
+                </Container>
+            </main>
+            <Footer />
+        </>
+    )
 }
 
-export default App;
+export default App
