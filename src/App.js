@@ -4,8 +4,10 @@ import { Container } from "react-bootstrap"
 import { Route, Routes } from "react-router-dom"
 import ProductSreen from "./screens/ProductSreen"
 import HomeScreen from "./screens/HomeScreens"
+import { fetchProducts } from "./redux/slices/product"
 
 function App() {
+    console.log(fetchProducts)
     return (
         <>
             <Header />
