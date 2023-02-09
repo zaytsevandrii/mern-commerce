@@ -1,19 +1,30 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
 
-export const fetchProducts = createAsyncThunk("products,fetchProducts", async () => {
-    const { data } = await axios.get("http://localhost:5000/api/products")
-    console.log(data)
+export const fetchProducts = createAsyncThunk("products,fetchProducts", async (_, { rejectWithValue }) => {
+    try {
+        const { data } = await axios.get("http://localhost:5000/api/products")
+        return data
+    } catch (error) {
+        return rejectWithValue(error.response.data.message)
+    }
+})
+
+export const fetchProduct = createAsyncThunk("products,fetchProducts", async (_, { rejectWithValue }) => {
+    try {
+        const { data } = await axios.get("http://localhost:5000/api/products")
+        return data
+    } catch (error) {
+        return rejectWithValue(error.response.data.message)
+    }
 })
 
 const initialState = {
-  products: {
-      items: [],
-      status: "loading",
-  },
-  
+    products: [],
+    status: "loading",
+    error: null,
+    
 }
-
 
 export const productSlice = createSlice({
     name: "products",
@@ -21,16 +32,16 @@ export const productSlice = createSlice({
     reducers: {},
     extraReducers: {
         [fetchProducts.pending]: (state) => {
-            state.products.items = []
-            state.products.status = "loading"
+            state.products = []
+            state.status = "loading"
         },
         [fetchProducts.fulfilled]: (state, action) => {
-            state.products.items = action.payload
-            state.products.status = "loaded"
+            state.products = action.payload
+            state.status = "loaded"
         },
-        [fetchProducts.rejected]: (state) => {
-            state.products.items = []
-            state.products.status = "rejected"
+        [fetchProducts.rejected]: (state, action, error) => {
+            state.error = action.payload
+            state.status = "rejected"
         },
     },
 })
